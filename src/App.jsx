@@ -1,474 +1,344 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx'
+import { Input } from '@/components/ui/input.jsx'
+import { Label } from '@/components/ui/label.jsx'
+import { Textarea } from '@/components/ui/textarea.jsx'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select.jsx'
 import { Badge } from '@/components/ui/badge.jsx'
-import { 
-  ArrowRight, 
-  Shield, 
-  Zap, 
-  Users, 
-  Star, 
-  CheckCircle, 
-  Mail, 
-  Phone, 
-  MapPin,
-  Menu,
-  X,
-  Eye,
-  Lightbulb,
-  Award
-} from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { CheckCircle, Home, Car, Users, Building, Palette, Coffee } from 'lucide-react'
+import livingImage from './assets/20250926_1947_UnaStanzanelBosco_remix_01k63j3w36em488haxcq46f9fn.png'
+import garageImage from './assets/20250926_2117_GarageMotoconPorta_remix_01k63q7e22fdmbjvg2ryhwe9hx.png'
 import './App.css'
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('home')
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    telefono: '',
+    utilizzo: '',
+    modello: '',
+    budget: '',
+    messaggio: ''
+  })
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'servizi', 'vantaggi', 'testimonianze', 'contatti']
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-    setIsMenuOpen(false)
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
   }
 
-  const services = [
-    {
-      icon: <Eye className="w-8 h-8" />,
-      title: "Vetrate Panoramiche",
-      description: "Soluzioni su misura per massimizzare la vista e la luminosità naturale",
-      features: ["Design personalizzato", "Materiali premium", "Installazione professionale"]
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Vetrate di Sicurezza",
-      description: "Protezione avanzata con vetri temperati e sistemi di sicurezza integrati",
-      features: ["Vetri antisfondamento", "Sistemi di allarme", "Certificazioni di sicurezza"]
-    },
-    {
-      icon: <Lightbulb className="w-8 h-8" />,
-      title: "Vetrate Smart",
-      description: "Tecnologia intelligente per il controllo automatico di luce e privacy",
-      features: ["Controllo remoto", "Automazione", "Efficienza energetica"]
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    // Per ora solo log dei dati - Supabase sarà configurato dopo
+    console.log('Form data:', formData)
+    alert('Grazie per il tuo interesse! Ti ricontatteremo presto.')
+    
+    // Reset form
+    setFormData({
+      nome: '',
+      email: '',
+      telefono: '',
+      utilizzo: '',
+      modello: '',
+      budget: '',
+      messaggio: ''
+    })
+  }
+
+  const utilizzi = [
+    { id: 'ufficio', title: 'Ufficio nella Natura', icon: Home, desc: 'Smart working con vista panoramica' },
+    { id: 'relax', title: 'Spazio Relax', icon: Coffee, desc: 'Yoga, meditazione, lettura' },
+    { id: 'arte', title: 'Studio Artistico', icon: Palette, desc: 'Pittura, creatività, ispirazione' },
+    { id: 'eventi', title: 'Sala Eventi', icon: Users, desc: 'Cene, feste, celebrazioni' },
+    { id: 'garage', title: 'Garage Vetrina', icon: Car, desc: 'Showroom per moto di pregio' },
+    { id: 'turismo', title: 'Turismo & Hospitality', icon: Building, desc: 'Camere esclusive, glamping' }
   ]
 
-  const advantages = [
-    {
-      icon: <Zap className="w-6 h-6" />,
-      title: "Installazione Rapida",
-      description: "Tempi di realizzazione ridotti grazie alla nostra esperienza"
-    },
-    {
-      icon: <Award className="w-6 h-6" />,
-      title: "Qualità Garantita",
-      description: "Materiali di prima scelta e garanzia estesa su tutti i prodotti"
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Team Esperto",
-      description: "Professionisti qualificati con anni di esperienza nel settore"
-    }
-  ]
-
-  const testimonials = [
-    {
-      name: "Marco Rossi",
-      role: "Proprietario Villa",
-      content: "Le vetrate installate da Vetrata hanno trasformato completamente la mia casa. La qualità è eccezionale e il servizio impeccabile.",
-      rating: 5
-    },
-    {
-      name: "Laura Bianchi",
-      role: "Architetto",
-      content: "Collaboro con Vetrata da anni. La loro professionalità e attenzione ai dettagli li rende il partner ideale per i miei progetti.",
-      rating: 5
-    },
-    {
-      name: "Giuseppe Verdi",
-      role: "Imprenditore",
-      content: "Per il mio ufficio ho scelto le vetrate smart di Vetrata. Tecnologia all'avanguardia e design impeccabile.",
-      rating: 5
-    }
+  const modelli = [
+    { id: 'mini', name: 'Natura Cube Mini', size: '2x2m', desc: 'Angolo lettura e relax' },
+    { id: 'studio', name: 'Natura Cube Studio', size: '3x3m', desc: 'Ufficio e studio artistico' },
+    { id: 'living', name: 'Natura Cube Living', size: '4x4m', desc: 'Eventi e spazi ampi' },
+    { id: 'garage', name: 'Natura Cube Garage', size: '2.5x4m', desc: 'Showroom per moto' }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <motion.div 
-              className="flex items-center space-x-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Eye className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Vetrata</span>
-            </motion.div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {['home', 'servizi', 'vantaggi', 'testimonianze', 'contatti'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`text-sm font-medium transition-colors duration-200 capitalize ${
-                    activeSection === section 
-                      ? 'text-blue-600 border-b-2 border-blue-600' 
-                      : 'text-gray-600 hover:text-blue-600'
-                  }`}
-                >
-                  {section}
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white border-t border-gray-200"
-            >
-              <div className="px-4 py-2 space-y-1">
-                {['home', 'servizi', 'vantaggi', 'testimonianze', 'contatti'].map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => scrollToSection(section)}
-                    className="block w-full text-left px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md capitalize"
-                  >
-                    {section}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
       {/* Hero Section */}
-      <section id="home" className="pt-16 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <Badge className="mb-4 bg-blue-100 text-blue-800 hover:bg-blue-200">
-                Soluzioni Innovative per Vetrate
-              </Badge>
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                Trasforma i tuoi spazi con
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Vetrata</span>
-              </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Progettiamo e installiamo vetrate su misura che combinano design elegante, 
-                tecnologia avanzata e massima qualità per valorizzare ogni ambiente.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  onClick={() => scrollToSection('contatti')}
-                >
-                  Richiedi Preventivo
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg"
-                  onClick={() => scrollToSection('servizi')}
-                >
-                  Scopri i Servizi
-                </Button>
-              </div>
-            </motion.div>
-          </div>
+      <section className="relative overflow-hidden bg-gradient-to-r from-green-900 to-amber-900 text-white">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative container mx-auto px-4 py-20 text-center">
+          <Badge className="mb-6 bg-green-600 hover:bg-green-700">Beta Test - Prodotto Innovativo</Badge>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-green-200 to-amber-200 bg-clip-text text-transparent">
+            Natura Cube
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 text-green-100 max-w-3xl mx-auto">
+            Il tuo spazio personale nella natura. Scopri un nuovo modo di vivere i tuoi ambienti con strutture modulari in legno che si adattano alle tue passioni.
+          </p>
+          <Button 
+            size="lg" 
+            className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg" 
+            onClick={() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            Richiedi Informazioni
+          </Button>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="servizi" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              I Nostri Servizi
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Offriamo soluzioni complete per ogni esigenza, dalla progettazione all'installazione
+      {/* Utilizzi Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Uno Spazio, Infinite Possibilità</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Natura Cube si adatta alle tue esigenze. Scegli come vivere il tuo spazio personale.
             </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full hover:shadow-lg transition-shadow duration-300">
-                  <CardHeader>
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center text-white mb-4">
-                      {service.icon}
-                    </div>
-                    <CardTitle className="text-xl">{service.title}</CardTitle>
-                    <CardDescription className="text-gray-600">
-                      {service.description}
-                    </CardDescription>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {utilizzi.map((utilizzo) => {
+              const Icon = utilizzo.icon
+              return (
+                <Card key={utilizzo.id} className="hover:shadow-lg transition-shadow border-green-100 hover:border-green-300">
+                  <CardHeader className="text-center">
+                    <Icon className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                    <CardTitle className="text-green-900">{utilizzo.title}</CardTitle>
+                    <CardDescription>{utilizzo.desc}</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {service.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
                 </Card>
-              </motion.div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* Advantages Section */}
-      <section id="vantaggi" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-purple-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Perché Scegliere Vetrata
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              La nostra esperienza e dedizione ci rendono il partner ideale per i tuoi progetti
-            </p>
-          </motion.div>
+      {/* Gallery Section */}
+      <section className="py-20 bg-gradient-to-br from-green-50 to-amber-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Vedi Natura Cube in Azione</h2>
+            <p className="text-xl text-gray-600">Immergiti nella natura senza rinunciare al comfort</p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <img 
+                src={livingImage} 
+                alt="Spazio Living Trasparente" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+            </div>
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-green-900">Spazio Living Trasparente</h3>
+              <p className="text-lg text-gray-700">
+                Lavora, rilassati o crea in uno spazio luminoso e aperto dove la natura diventa parte del tuo ambiente. 
+                La parete completamente vetrata offre una vista mozzafiato e un'esperienza senza confini.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span>Vista panoramica a 180°</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span>Materiali naturali certificati</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <span>Isolamento termico superiore</span>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {advantages.map((advantage, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white mx-auto mb-4">
-                  {advantage.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {advantage.title}
-                </h3>
-                <p className="text-gray-600">
-                  {advantage.description}
-                </p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 lg:order-2">
+              <h3 className="text-3xl font-bold text-amber-900">Garage Vetrina</h3>
+              <p className="text-lg text-gray-700">
+                La tua moto non è solo un mezzo di trasporto, è una passione. Esponila come un'opera d'arte, 
+                protetta e sempre visibile, con possibilità di illuminazione notturna per un effetto scenografico unico.
+              </p>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-amber-600" />
+                  <span>Protezione completa dalle intemperie</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-amber-600" />
+                  <span>Sistema di illuminazione integrato</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-amber-600" />
+                  <span>Accesso facilitato</span>
+                </li>
+              </ul>
+            </div>
+            <div className="lg:order-1">
+              <img 
+                src={garageImage} 
+                alt="Garage Vetrina per Moto" 
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonianze" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Cosa Dicono i Nostri Clienti
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              La soddisfazione dei nostri clienti è la nostra migliore referenza
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full">
-                  <CardContent className="pt-6">
-                    <div className="flex mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-gray-600 mb-4 italic">
-                      "{testimonial.content}"
-                    </p>
-                    <div>
-                      <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                      <p className="text-sm text-gray-500">{testimonial.role}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+      {/* Modelli Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">I Nostri Modelli</h2>
+            <p className="text-xl text-gray-600">Quattro soluzioni progettate per ogni esigenza</p>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contatti" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Contattaci Oggi
-            </h2>
-            <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-              Siamo pronti a trasformare i tuoi spazi. Richiedi una consulenza gratuita
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20">
-                <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold text-white mb-6">
-                    Informazioni di Contatto
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center text-white">
-                      <Phone className="w-5 h-5 mr-3 text-blue-200" />
-                      <span>+39 123 456 7890</span>
-                    </div>
-                    <div className="flex items-center text-white">
-                      <Mail className="w-5 h-5 mr-3 text-blue-200" />
-                      <span>info@vetrata.it</span>
-                    </div>
-                    <div className="flex items-center text-white">
-                      <MapPin className="w-5 h-5 mr-3 text-blue-200" />
-                      <span>Via delle Vetrate, 123 - Milano, IT</span>
-                    </div>
-                  </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {modelli.map((modello) => (
+              <Card key={modello.id} className="hover:shadow-lg transition-shadow border-green-100 hover:border-green-300">
+                <CardHeader>
+                  <CardTitle className="text-green-900">{modello.name}</CardTitle>
+                  <Badge variant="outline" className="w-fit">{modello.size}</Badge>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">{modello.desc}</p>
                 </CardContent>
               </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 border border-white/20">
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  Richiedi un Preventivo
-                </h3>
-                <p className="text-blue-100 mb-6">
-                  Compila il form o chiamaci direttamente per una consulenza personalizzata
-                </p>
-                <Button 
-                  size="lg" 
-                  className="bg-white text-blue-600 hover:bg-blue-50 w-full sm:w-auto"
-                >
-                  Contattaci Ora
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-            </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* Form Section */}
+      <section id="form" className="py-20 bg-gradient-to-br from-green-50 to-amber-50">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Richiedi Informazioni</h2>
+            <p className="text-xl text-gray-600">
+              Siamo in fase di beta test. Compila il form per essere tra i primi a scoprire Natura Cube.
+            </p>
+          </div>
+
+          <Card className="shadow-2xl border-green-100">
+            <CardContent className="p-8">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="nome">Nome *</Label>
+                    <Input
+                      id="nome"
+                      value={formData.nome}
+                      onChange={(e) => handleInputChange('nome', e.target.value)}
+                      required
+                      className="border-green-200 focus:border-green-400"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      required
+                      className="border-green-200 focus:border-green-400"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="telefono">Telefono</Label>
+                  <Input
+                    id="telefono"
+                    value={formData.telefono}
+                    onChange={(e) => handleInputChange('telefono', e.target.value)}
+                    className="border-green-200 focus:border-green-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="utilizzo">Utilizzo Previsto *</Label>
+                    <Select value={formData.utilizzo} onValueChange={(value) => handleInputChange('utilizzo', value)}>
+                      <SelectTrigger className="border-green-200 focus:border-green-400">
+                        <SelectValue placeholder="Seleziona utilizzo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {utilizzi.map((utilizzo) => (
+                          <SelectItem key={utilizzo.id} value={utilizzo.id}>
+                            {utilizzo.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="modello">Modello di Interesse</Label>
+                    <Select value={formData.modello} onValueChange={(value) => handleInputChange('modello', value)}>
+                      <SelectTrigger className="border-green-200 focus:border-green-400">
+                        <SelectValue placeholder="Seleziona modello" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {modelli.map((modello) => (
+                          <SelectItem key={modello.id} value={modello.id}>
+                            {modello.name} ({modello.size})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="budget">Budget Orientativo</Label>
+                  <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
+                    <SelectTrigger className="border-green-200 focus:border-green-400">
+                      <SelectValue placeholder="Seleziona range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="5k-10k">€5.000 - €10.000</SelectItem>
+                      <SelectItem value="10k-20k">€10.000 - €20.000</SelectItem>
+                      <SelectItem value="20k-30k">€20.000 - €30.000</SelectItem>
+                      <SelectItem value="30k+">€30.000+</SelectItem>
+                      <SelectItem value="da-definire">Da definire</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="messaggio">Messaggio Aggiuntivo</Label>
+                  <Textarea
+                    id="messaggio"
+                    value={formData.messaggio}
+                    onChange={(e) => handleInputChange('messaggio', e.target.value)}
+                    placeholder="Raccontaci di più sul tuo progetto..."
+                    className="border-green-200 focus:border-green-400"
+                    rows={4}
+                  />
+                </div>
+
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full bg-green-600 hover:bg-green-700 text-white py-4 text-lg"
+                >
+                  Richiedi Informazioni
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <Eye className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold">Vetrata</span>
-            </div>
-            <p className="text-gray-400 mb-4">
-              Soluzioni innovative per vetrate di qualità superiore
-            </p>
-            <p className="text-sm text-gray-500">
-              © 2024 Vetrata. Tutti i diritti riservati.
-            </p>
-          </div>
+      <footer className="bg-green-900 text-white py-12">
+        <div className="container mx-auto px-4 text-center">
+          <h3 className="text-2xl font-bold mb-4">Natura Cube</h3>
+          <p className="text-green-200 mb-6">Il tuo spazio personale nella natura</p>
+          <Badge className="bg-green-600">Beta Test - Prodotto in Sviluppo</Badge>
+          <p className="text-sm text-green-300 mt-6">
+            © 2024 Natura Cube. Tutti i diritti riservati.
+          </p>
         </div>
       </footer>
     </div>
