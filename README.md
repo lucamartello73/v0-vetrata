@@ -1,98 +1,30 @@
-# Natura Cube - Landing Page
+# Martello 1930 landing page
 
-Landing page per il beta test di Natura Cube, strutture modulari in legno per spazi personali nella natura.
+*Automatically synced with your [v0.app](https://v0.app) deployments*
 
-## Caratteristiche
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/lucamartello73-4767s-projects/v0-martello-1930-landing-page)
+[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/SoRkFNEBat7)
 
-- **Design Responsivo**: Ottimizzata per desktop, tablet e mobile
-- **Form Avanzato**: Raccolta lead con integrazione Supabase
-- **UI Moderna**: Utilizzando Tailwind CSS e shadcn/ui
-- **Performance**: Costruita con React e Vite
+## Overview
 
-## Setup del Progetto
+This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
+Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
 
-### 1. Installazione Dipendenze
+## Deployment
 
-```bash
-pnpm install
-```
+Your project is live at:
 
-### 2. Configurazione Supabase
+**[https://vercel.com/lucamartello73-4767s-projects/v0-martello-1930-landing-page](https://vercel.com/lucamartello73-4767s-projects/v0-martello-1930-landing-page)**
 
-1. Crea un nuovo progetto su [Supabase](https://supabase.com)
-2. Copia il file `.env.example` in `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-3. Aggiorna le variabili in `.env` con i tuoi dati Supabase:
-   ```
-   VITE_SUPABASE_URL=your_supabase_project_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+## Build your app
 
-### 3. Setup Database
+Continue building your app on:
 
-Esegui lo script SQL `supabase-schema.sql` nel tuo progetto Supabase per creare la tabella `contacts`.
+**[https://v0.app/chat/projects/SoRkFNEBat7](https://v0.app/chat/projects/SoRkFNEBat7)**
 
-### 4. Sviluppo
+## How It Works
 
-```bash
-pnpm run dev
-```
-
-La landing page sarà disponibile su `http://localhost:5173`
-
-### 5. Build per Produzione
-
-```bash
-pnpm run build
-```
-
-## Deployment su Vercel
-
-1. Connetti il repository a Vercel
-2. Configura le variabili d'ambiente:
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
-3. Deploy automatico ad ogni push
-
-## Struttura del Progetto
-
-- **Hero Section**: Presentazione principale con CTA
-- **Utilizzi**: 6 diverse applicazioni del prodotto
-- **Gallery**: Immagini dei modelli con descrizioni
-- **Modelli**: 4 configurazioni base
-- **Form Contatti**: Raccolta lead completa con opzioni
-- **Footer**: Informazioni brand
-
-## Funzionalità Form
-
-Il form raccoglie:
-- Dati di contatto (nome, email, telefono)
-- Utilizzo previsto (6 opzioni)
-- Modello di interesse (4 modelli)
-- Opzioni desiderate (5 add-on)
-- Budget orientativo (5 range)
-- Tempistiche progetto (5 opzioni)
-- Messaggio libero
-
-Tutti i dati vengono salvati in Supabase per il follow-up commerciale.
-
-## Tecnologie Utilizzate
-
-- **React 18**: Framework frontend
-- **Vite**: Build tool e dev server
-- **Tailwind CSS**: Styling
-- **shadcn/ui**: Componenti UI
-- **Lucide React**: Icone
-- **Supabase**: Database e backend
-- **Framer Motion**: Animazioni (disponibile)
-
-## Beta Test
-
-Questa landing page è progettata per validare il mercato e raccogliere feedback sul prodotto Natura Cube. Include:
-
-- Badge "Beta Test" prominenti
-- Messaging focalizzato sulla novità del prodotto
-- Form ottimizzato per la qualificazione dei lead
-- Design che trasmette innovazione e qualità
+1. Create and modify your project using [v0.app](https://v0.app)
+2. Deploy your chats from the v0 interface
+3. Changes are automatically pushed to this repository
+4. Vercel deploys the latest version from this repository
